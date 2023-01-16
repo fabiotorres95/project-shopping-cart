@@ -17,4 +17,14 @@ describe('Teste a função fetchProduct', () => {
     await fetchProduct('MLB1405519561');
     expect(fetch).toHaveBeenCalledWith('https://api.mercadolibre.com/items/MLB1405519561');
   });
+
+  it('Testa se o retorno da função e um objeto igual ao exemplo importado', async () => {
+    const result = await fetchProduct('MLB1405519561');
+    expect(result).toStrictEqual(product);
+  });
+
+  it('Verifica se fetchProduct usa o fetch com o endpoint correto', async () => {
+    const result = await fetchProduct();
+    expect(result).toThrow('ID não informado');
+  });
 });
