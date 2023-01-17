@@ -1,6 +1,6 @@
 import { searchCep } from './helpers/cepFunctions';
-import { fetchProductsList } from './helpers/fetchFunctions';
-import { createProductElement } from './helpers/shopFunctions';
+import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
+import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
 import { saveCartID } from './helpers/cartFunctions';
 import './style.css';
 
@@ -22,15 +22,25 @@ showLoadingScreen();
 try {
   const computers = await fetchProductsList('computador');
   removeLoadingScreen();
+
   computers.forEach((element) => {
     sectionEl.appendChild(createProductElement(element));
-    // working
     const allProducts = document.querySelectorAll('.product');
     const lastProduct = allProducts[allProducts.length - 1];
 
-    lastProduct.querySelector('.product__add').addEventListener('click', () => {
+    lastProduct.querySelector('.product__add').addEventListener('click', async () => {
       const productID = lastProduct.querySelector('.product__id').innerText;
       saveCartID(productID);
+      const details = await fetchProduct(productID);
+
+      const neededDetails = {
+        id: details.id,
+        title: details.title,
+        price: details.price,
+        pictures: details.pictures,
+      };
+      document.querySelector('.cart__products')
+        .appendChild(createCartProductElement(neededDetails));
     });
   });
 } catch {
