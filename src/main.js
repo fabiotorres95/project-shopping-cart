@@ -20,10 +20,17 @@ const removeLoadingScreen = () => {
 showLoadingScreen();
 try {
   const computers = await fetchProductsList('computador');
+  removeLoadingScreen();
   computers.forEach((element) => {
     sectionEl.appendChild(createProductElement(element));
+    // working
+    const allProducts = document.querySelectorAll('.product');
+    const lastProduct = allProducts[allProducts.length - 1];
+
+    lastProduct.querySelector('.product__add').addEventListener('click', () => {
+      const productID = lastProduct.querySelector('.product__id').innerText;
+    });
   });
-  removeLoadingScreen();
 } catch {
   const message = document.querySelector('.loading');
   message.className = 'error';
