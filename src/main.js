@@ -1,6 +1,7 @@
 import { searchCep } from './helpers/cepFunctions';
 import { fetchProductsList } from './helpers/fetchFunctions';
 import { createProductElement } from './helpers/shopFunctions';
+import { saveCartID } from './helpers/cartFunctions';
 import './style.css';
 
 const sectionEl = document.querySelector('.products');
@@ -29,6 +30,7 @@ try {
 
     lastProduct.querySelector('.product__add').addEventListener('click', () => {
       const productID = lastProduct.querySelector('.product__id').innerText;
+      saveCartID(productID);
     });
   });
 } catch {
