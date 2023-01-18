@@ -5,6 +5,8 @@ import { saveCartID, getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
 
 // variables and aux functions
+let onLoadTotal = 0;
+const ids = getSavedCartIDs();
 const sectionEl = document.querySelector('.products');
 const showLoadingScreen = () => {
   const message = document.createElement('div');
@@ -47,6 +49,10 @@ try {
       };
       document.querySelector('.cart__products')
         .appendChild(createCartProductElement(neededDetails));
+
+      onLoadTotal += neededDetails.price;
+      document.querySelector('.total-price').innerText = onLoadTotal;
+      console.log(onLoadTotal);
     });
   });
 } catch {
@@ -55,7 +61,6 @@ try {
   message.innerText = 'Algum erro ocorreu, recarregue a página e tente novamente';
 }
 // show what's saved in LocalStorage already
-const ids = getSavedCartIDs();
 const products = await LocalPromises(ids);
 const organized = products.map((data) => {
   const result = {
@@ -66,11 +71,18 @@ const organized = products.map((data) => {
   };
   return result;
 });
-console.log(organized);
 organized.forEach((newData) => {
-  console.log(newData);
   document.querySelector('.cart__products')
     .appendChild(createCartProductElement(newData));
 });
+
+// show total price in cart
+const prices = organized.map((object) => object.price);
+console.log(prices);
+for (let index = 0; index < prices.length; index += 1) {
+  onLoadTotal += prices[index];
+}
+console.log(onLoadTotal);
+document.querySelector('.total-price').innerText = onLoadTotal;
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
