@@ -51,8 +51,7 @@ try {
         .appendChild(createCartProductElement(neededDetails));
 
       onLoadTotal += neededDetails.price;
-      document.querySelector('.total-price').innerText = onLoadTotal;
-      console.log(onLoadTotal);
+      document.querySelector('.total-price').innerText = onLoadTotal.toFixed(2);
     });
   });
 } catch {
@@ -78,11 +77,9 @@ organized.forEach((newData) => {
 
 // show total price in cart
 const prices = organized.map((object) => object.price);
-console.log(prices);
 for (let index = 0; index < prices.length; index += 1) {
   onLoadTotal += prices[index];
 }
-console.log(onLoadTotal);
-document.querySelector('.total-price').innerText = onLoadTotal;
+document.querySelector('.total-price').innerText = onLoadTotal.toFixed(2);
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
