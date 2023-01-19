@@ -1,25 +1,31 @@
 export const getAddress = async (cep) => {
   // seu código aqui
-  let res = '';
+  const neededClass = '.cart__address';
   try {
     const requestAwesome = await fetch(`https://cep.awesomeapi.com.br/json/${cep}`);
     const requestBrasil = await fetch(`https://brasilapi.com.br/api/cep/v2/${cep}`);
     Promise.any([requestAwesome, requestBrasil])
-      .then((data) => {
-        if (typeof data.address_type === 'undefined') {
-          res = `${data.address} - ${data.district} - ${data.city} - ${data.state}`;
+      .then((data) => data.json()).then((data) => {
+        if (typeof data.address_type !== 'undefined') {
+          const res = `${data.address} - ${data.district} - ${data.city} - ${data.state}`;
+          document.querySelector(neededClass).innerHTML = res;
         } else {
-          res = `${data.street} - ${data.neighborhood} - ${data.city} - ${data.state}`;
+          const res = `${data.street} - ${data.neighborhood} - ${data.city} - ${data.state}`;
+          document.querySelector(neededClass).innerHTML = res;
         }
       });
-  } catch {
-    res = 'CEP não encontrado';
+  } catch (error) {
+    const res = 'CEP não encontrado';
+    document.querySelector(neededClass).innerHTML = res;
   }
-  return res;
+  // document.querySelector(neededClass).innerHTML = res;
 };
 
 export const searchCep = async () => {
   // seu código aqui
-  const input = document.querySelector('.cep-input').innerHTML;
-  document.querySelector('.cart__address').innerText = await getAddress(input);
+  const input = document.querySelector('.cep-input').value;
+  console.log(input);
+  await getAddress(input);
+  // console.log(result);
+  // document.querySelector('.cart__address').innerHTML = result;
 };
