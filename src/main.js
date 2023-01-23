@@ -1,11 +1,14 @@
 import { searchCep } from './helpers/cepFunctions';
 import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
-import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
+import {
+  createProductElement,
+  createCartProductElement,
+  onLoadTotal,
+} from './helpers/shopFunctions';
 import { saveCartID, getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
 
 // variables and aux functions
-let onLoadTotal = 0;
 const ids = getSavedCartIDs();
 const sectionEl = document.querySelector('.products');
 const showLoadingScreen = () => {
@@ -50,8 +53,8 @@ try {
       document.querySelector('.cart__products')
         .appendChild(createCartProductElement(neededDetails));
 
-      onLoadTotal += neededDetails.price;
-      document.querySelector('.total-price').innerText = onLoadTotal.toFixed(2);
+      onLoadTotal[0] += neededDetails.price;
+      document.querySelector('.total-price').innerText = onLoadTotal[0].toFixed(2);
     });
   });
 } catch {
@@ -78,8 +81,10 @@ organized.forEach((newData) => {
 // show total price in cart
 const prices = organized.map((object) => object.price);
 for (let index = 0; index < prices.length; index += 1) {
-  onLoadTotal += prices[index];
+  onLoadTotal[0] += prices[index];
 }
-document.querySelector('.total-price').innerText = onLoadTotal.toFixed(2);
+document.querySelector('.total-price').innerText = onLoadTotal[0].toFixed(2);
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
+
+export default onLoadTotal;

@@ -4,6 +4,7 @@ import { removeCartID } from './cartFunctions';
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições!
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
+export const onLoadTotal = [0];
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
@@ -87,7 +88,11 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
   );
   li.appendChild(removeButton);
 
-  li.addEventListener('click', () => removeCartProduct(li, id));
+  li.addEventListener('click', () => {
+    removeCartProduct(li, id);
+    onLoadTotal[0] -= parseFloat(price);
+    document.querySelector('.total-price').innerText = onLoadTotal[0].toFixed(2);
+  });
   return li;
 };
 
