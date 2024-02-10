@@ -8,3 +8,6 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
+Projeto Shopping Cart - Trybe curso Front-End seção 1: "Introdução ao Front-End e JavaScript Assíncrono"
+
+Front-End - projeto 1 de 10
